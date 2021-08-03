@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
-import Button from "../../../components/common/button/button";
 import InputGroup from "../../../components/common/input-group/input-group";
 import Input from "../../../components/common/input/input";
 import InputError from "../../../components/common/input/input-error";
@@ -10,7 +9,6 @@ import WithAuth from "../../../hoc/with-auth";
 import MembershipService from "../../../services/api/membership.service";
 import {
   minMsg,
-  maxMsg,
   requiredMsg,
 } from "../../../utils/form-error-message.util";
 
@@ -24,7 +22,7 @@ const CashoutPage = () => {
 
   useEffect(() => {
     getMemhershipDetails(membershipId);
-  }, []);
+  }, [membershipId]);
 
   const getMemhershipDetails = async (membershipId: string) => {
     const result = await MembershipService.getMembershipsById(membershipId);

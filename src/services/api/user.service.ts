@@ -34,8 +34,10 @@ const updateUser = async (
   }
 };
 
-export default {
+const UserService = {
   getUsers,
   getUser,
   updateUser,
 };
+
+export default UserService;

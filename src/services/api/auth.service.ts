@@ -66,7 +66,7 @@ const updatePassword = async (
   }
 };
 
-export default {
+const AuthService = {
   login,
   register,
   authUser,
@@ -74,3 +74,5 @@ export default {
   loginAsAdmin,
   updatePassword,
 };
+
+export default AuthService;

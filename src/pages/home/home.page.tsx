@@ -1,4 +1,3 @@
-import React from "react";
 import logo from "../../assets/images/logo.png";
 import landingLogo from "../../assets/images/landing-logo.png";
 import Button from "../../components/common/button/button";
@@ -13,7 +12,7 @@ const HomePage = () => {
         <div className="w-full flex flex-row mb-5 py-5">
           <div className="w-10/12 flex flex-row items-center">
             <div style={{ width: "47px", height: "40px" }}>
-              <img src={logo} className="w-full h-full" />
+              <img src={logo} className="w-full h-full" alt="Kringle UK" />
             </div>
             <div>
               <h1
@@ -52,7 +51,7 @@ const HomePage = () => {
             <Button label="Create Account Now" theme="primary" onClick={() => history.push('/user/auth/register')} />
           </div>
           <div className="w-5/12">
-            <img src={landingLogo} />
+            <img src={landingLogo} alt="Kringle UK TBC Logo" />
           </div>
         </div>
       </div>

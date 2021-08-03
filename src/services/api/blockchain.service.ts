@@ -13,6 +13,8 @@ const getUsdToBtc = async (amount: number) => {
   }
 };
 
-export default {
+const BlockchainService = {
   getUsdToBtc,
 };
+
+export default BlockchainService;

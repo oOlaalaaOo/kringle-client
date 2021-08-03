@@ -88,7 +88,9 @@ const confirmMembership = async (membershipId: string) => {
 
 const getMembershipsByReferrerCode = async (referrerCode: string) => {
   try {
-    return await axiosInstance(true).get(`/membership/downlines/${referrerCode}`);
+    return await axiosInstance(true).get(
+      `/membership/downlines/${referrerCode}`
+    );
   } catch (err) {
     return Promise.reject(errorHandler(err));
   }
@@ -102,7 +104,7 @@ const getMembershipsById = async (membershipId: string) => {
   }
 };
 
-export default {
+const MembershipService = {
   addMembership,
   checkMembershipReferrerCode,
   checkMembershipTransactionHash,
@@ -112,5 +114,7 @@ export default {
   getMembershipsByStatus,
   confirmMembership,
   getMembershipsByReferrerCode,
-  getMembershipsById
+  getMembershipsById,
 };
+
+export default MembershipService;

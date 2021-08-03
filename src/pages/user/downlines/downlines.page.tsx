@@ -5,14 +5,14 @@ import UserTopNavbar from "../../../components/shared/user-top-navbar/user-top-n
 import WithAuth from "../../../hoc/with-auth";
 import MembershipService from "../../../services/api/membership.service";
 
-const DashboardPage: FC<any> = ({ user }) => {
+const DashboardPage: FC<any> = () => {
   const { referrerCode } = useParams<any>();
 
   const [downlines, setDownlines] = useState([]);
 
   useEffect(() => {
     getMembershipDownlines(referrerCode);
-  }, []);
+  }, [referrerCode]);
 
   const getMembershipDownlines = async (referrerCode: string) => {
     const result = await MembershipService.getMembershipsByReferrerCode(

@@ -1,6 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router";
 import Alert from "../../../components/common/alert/alert";
 import Button from "../../../components/common/button/button";
 import InputGroup from "../../../components/common/input-group/input-group";
@@ -11,8 +10,6 @@ import WithAuth from "../../../hoc/with-auth";
 import AuthService from "../../../services/api/auth.service";
 import UserService from "../../../services/api/user.service";
 import {
-  minMsg,
-  maxMsg,
   requiredMsg,
   minLengthMsg,
 } from "../../../utils/form-error-message.util";

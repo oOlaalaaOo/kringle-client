@@ -1,0 +1,119 @@
+import React from "react";
+import Next from "../images/icons/next.inline.svg";
+import Previous from "../images/icons/previous.inline.svg";
+import { Link } from "gatsby";
+import { isBrowser } from "../context/tutor-context";
+import "../styles/blog-pagination.css";
+
+const BlogPagination = ({ pageContext, uriPathName }) => {
+  const { previousPagePath, totalPages, nextPagePath, pageNumber } =
+    pageContext;
+  const minimumPageNoToHideDots = Number(totalPages) - 1;
+
+
+  const pageLinks = (_totalPages = 0) => {
+    let pageNos = [];
+    let firstIndex = 1;
+    let lastIndex = 6;
+
+    if (pageNumber >= 4) {
+      firstIndex = pageNumber - 2;
+      lastIndex = pageNumber + 3;
+    }
+
+    for (let i = firstIndex; i <= lastIndex; i++) {
+      if (i <= _totalPages) {
+        pageNos.push(i);
+      }
+    }
+
+    return pageNos;
+  };
+
+  const formatUriPathName = (_uriPathName = "") => {
+    if (!isBrowser()) return;
+
+    return _uriPathName.replaceAll(" ", "-");
+  };
+
+  return (
+    <div
+      className={`w-full flex flex-row flex-wrap items-center blogPaginationContainer`}
+    >
+      {previousPagePath && (
+        <Link to={previousPagePath} className="blogPaginationPreviousButton">
+          <Previous />
+        </Link>
+      )}
+      {totalPages && (
+        <>
+          {pageLinks(totalPages).map((item, index) => {
+            return (
+              <React.Fragment key={item}>
+                {index === 3 || index === 4 ? (
+                  <>
+                    {item >= minimumPageNoToHideDots ? (
+                      <Link
+                        to={`${uriPathName}/${item === 1 ? "" : item}`}
+                      >
+                        <span
+                          style={{
+                            marginRight:
+                              pageLinks(totalPages).length === index + 1
+                                ? "0px"
+                                : "15px",
+                            marginLeft: index === 0 ? "0px" : "15px",
+                          }}
+                          className={`font-rucksack ${pageNumber === item
+                              ? "text-blue-one"
+                              : "text-gray-four"
+                            } blogPaginationLink`}
+                        >
+                          {item}
+                        </span>
+                      </Link>
+                    ) : (
+                      <span
+                        style={{
+                          marginLeft: index === 3 ? 10 : 0,
+                          marginRight: index === 4 ? 10 : 0,
+                        }}
+                      >
+                        {index === 3 ? "..." : null}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to={`${uriPathName}/${item === 1 ? "" : item}`}
+                  >
+                    <span
+                      style={{
+                        marginRight:
+                          pageLinks(totalPages).length === index + 1
+                            ? "0px"
+                            : "15px",
+                        marginLeft: index === 0 ? "0px" : "15px",
+                      }}
+                      className={`font-rucksack ${pageNumber === item ? "text-blue-one" : "text-gray-four"
+                        } blogPaginationLink`}
+                    >
+                      {item}
+                    </span>
+                  </Link>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </>
+      )}
+      {nextPagePath && (
+        <Link to={nextPagePath} className="blogPaginationNextButton">
+          <Next />
+        </Link>
+      )}
+    </div>
+  );
+};
+
+export default BlogPagination;

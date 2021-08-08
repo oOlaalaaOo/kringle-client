@@ -60,7 +60,7 @@ const UpdatePasswordForm: FC<{ user: any }> = ({ user }) => {
       setLoading(true);
       setUpdatePasswordError(null);
 
-      const result = await AuthService.updatePassword(
+      await AuthService.updatePassword(
         user._id,
         data.currentPassword,
         data.newPassword

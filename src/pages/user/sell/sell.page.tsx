@@ -26,9 +26,7 @@ const SellPage = () => {
   }, [membershipId]);
 
   const getMemhershipDetails = async (membershipId: string) => {
-    const result = await MembershipService.getMembershipsById(membershipId);
-
-    console.log("result", result);
+    await MembershipService.getMembershipsById(membershipId);
   };
 
   const onSubmit = (data: any) => {
@@ -177,11 +175,7 @@ const SellPage = () => {
               </InputGroup>
 
               <InputGroup>
-                <Button
-                  label="Submit"
-                  theme="primary"
-                  type="submit"
-                />
+                <Button label="Submit" theme="primary" type="submit" />
               </InputGroup>
             </form>
           </div>

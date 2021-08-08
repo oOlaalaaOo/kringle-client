@@ -7,10 +7,7 @@ import InputError from "../../../components/common/input/input-error";
 import UserTopNavbar from "../../../components/shared/user-top-navbar/user-top-navbar";
 import WithAuth from "../../../hoc/with-auth";
 import MembershipService from "../../../services/api/membership.service";
-import {
-  minMsg,
-  requiredMsg,
-} from "../../../utils/form-error-message.util";
+import { minMsg, requiredMsg } from "../../../utils/form-error-message.util";
 
 const CashoutPage = () => {
   const { membershipId } = useParams<any>();
@@ -25,9 +22,7 @@ const CashoutPage = () => {
   }, [membershipId]);
 
   const getMemhershipDetails = async (membershipId: string) => {
-    const result = await MembershipService.getMembershipsById(membershipId);
-
-    console.log("result", result);
+    await MembershipService.getMembershipsById(membershipId);
   };
 
   const onSubmit = (data: any) => {

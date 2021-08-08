@@ -15,8 +15,6 @@ const AdminUsersPage = () => {
   const getUsers = async () => {
     const result = await UserService.getUsers();
 
-    console.log("result", result);
-
     setUsers(result.data.users);
   };
 

@@ -176,7 +176,7 @@ const UpdateDetailsForm: FC<{ user: any }> = ({ user }) => {
       setLoading(true);
       setUpdateDetailsError(null);
 
-      const result = await UserService.updateUser(
+      await UserService.updateUser(
         user._id,
         data.btcWallet,
         data.tbcWallet,

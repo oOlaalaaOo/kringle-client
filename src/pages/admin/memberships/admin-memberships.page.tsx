@@ -19,16 +19,12 @@ const AdminMembershipsPage = () => {
   const getMemberships = async () => {
     const result = await MembershipService.getMembershipsByStatus("all");
 
-    console.log("result", result);
-
     setMemberships(result.data.memberships);
   };
 
   const confirmMembership = async (membershipId: string) => {
     try {
-      const result = await MembershipService.confirmMembership(membershipId);
-
-      console.log("result", result);
+      await MembershipService.confirmMembership(membershipId);
 
       setConfirmMembershipModal(false);
 

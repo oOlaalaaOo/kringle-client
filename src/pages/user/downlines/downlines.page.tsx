@@ -19,8 +19,6 @@ const DashboardPage: FC<any> = () => {
       referrerCode
     );
 
-    console.log("result", result);
-
     setDownlines(result.data.memberships);
   };
 

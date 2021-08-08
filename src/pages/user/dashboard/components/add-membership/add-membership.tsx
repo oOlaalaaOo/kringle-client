@@ -13,10 +13,10 @@ import BlockchainService from "../../../../../services/api/blockchain.service";
 import MembershipService from "../../../../../services/api/membership.service";
 
 interface IProps {
-  onSuccessSubmit: () => void;
+  onSubmitSuccess: () => void;
 }
 
-const AddMembershipForm: React.FC<IProps> = ({ onSuccessSubmit }) => {
+const AddMembershipForm: React.FC<IProps> = ({ onSubmitSuccess }) => {
   const {
     register,
     handleSubmit,
@@ -84,7 +84,7 @@ const AddMembershipForm: React.FC<IProps> = ({ onSuccessSubmit }) => {
       membershipPlanId
     );
 
-    onSuccessSubmit();
+    onSubmitSuccess();
   };
 
   if (loading === true) {
@@ -121,7 +121,7 @@ const AddMembershipForm: React.FC<IProps> = ({ onSuccessSubmit }) => {
           <InputError error={minLengthMsg(5)} />
         )}
         {errors.referralCode && errors.referralCode.type === "validate" && (
-          <InputError error="Referral Code does not exits." />
+          <InputError error="Referral Code does not exists." />
         )}
       </InputGroup>
 
@@ -182,7 +182,7 @@ const AddMembershipForm: React.FC<IProps> = ({ onSuccessSubmit }) => {
           id="adminBtcWallett"
           label="Admin BTC Wallet"
           readOnly={true}
-          value="3M38QEqP3uFC4GiPGXZWLKPXyczw8octpU"
+          value="bc1q6pwaz7sh3vgk0muee2c5nvyw2cmlruxa8hgp3d"
           ref={adminBtcWalletRef}
           iconRight={
             <Copy

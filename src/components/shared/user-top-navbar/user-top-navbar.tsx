@@ -79,7 +79,7 @@ const UserTopNavbar = () => {
               <img
                 className="block h-8 w-auto rounded-md"
                 src={logo}
-                alt="Kringle"
+                alt="Kringle UK"
               />
             </div>
             <div className="hidden sm:block sm:ml-6">

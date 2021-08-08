@@ -10,8 +10,13 @@ import InputGroup from "../../common/input-group/input-group";
 import Input from "../../common/input/input";
 import InputError from "../../common/input/input-error";
 import AuthService from "../../../services/api/auth.service";
+import UserService from "../../../services/api/user.service";
 
-const RegisterForm: React.FC<any> = () => {
+interface IProps {
+  onRegisterSuccess?: (value: boolean) => void;
+}
+
+const RegisterForm: React.FC<IProps> = ({ onRegisterSuccess }) => {
   const {
     register,
     handleSubmit,
@@ -20,7 +25,13 @@ const RegisterForm: React.FC<any> = () => {
   } = useForm();
 
   const onSubmit = async (data: any) => {
-    await AuthService.register(data.username, data.password, data.name);
+    try {
+      await AuthService.register(data.username, data.password, data.name);
+      if (typeof onRegisterSuccess !== "undefined") onRegisterSuccess(true);
+    } catch (err) {
+      console.log("err", err);
+      if (typeof onRegisterSuccess !== "undefined") onRegisterSuccess(false);
+    }
   };
 
   return (
@@ -31,7 +42,12 @@ const RegisterForm: React.FC<any> = () => {
           id="username"
           label="Username"
           placeholder="Username"
-          {...register("username", { required: true, minLength: 5 })}
+          {...register("username", { required: true, minLength: 5, validate: async (value) => {
+            const result =
+              await UserService.checkUsername(value);
+
+            return result.data.success;
+          }, })}
         />
 
         {errors.username && errors.username.type === "required" && (
@@ -39,6 +55,9 @@ const RegisterForm: React.FC<any> = () => {
         )}
         {errors.username && errors.username.type === "minLength" && (
           <InputError error={minLengthMsg(5)} />
+        )}
+        {errors.referralCode && errors.referralCode.type === "validate" && (
+          <InputError error="Username already exists." />
         )}
       </InputGroup>
 

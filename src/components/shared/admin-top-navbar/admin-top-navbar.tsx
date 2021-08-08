@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { User } from "react-feather";
+import logo from "../../../assets/images/logo.png";
 
 const AdminTopNavbar = () => {
   const history = useHistory();
@@ -76,9 +77,9 @@ const AdminTopNavbar = () => {
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0 flex items-center">
               <img
-                className="block h-8 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                alt="Workflow"
+                className="block h-8 w-auto rounded-md"
+                src={logo}
+                alt="Kringle UK"
               />
             </div>
             <div className="hidden sm:block sm:ml-6">

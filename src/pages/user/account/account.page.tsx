@@ -22,9 +22,7 @@ const AccountPage: FC<any> = ({ user }) => {
   }, [user]);
 
   const getUser = async (userId: string) => {
-    const result = await UserService.getUser(userId);
-
-    console.log("result", result);
+    await UserService.getUser(userId);
   };
 
   return (
@@ -67,8 +65,6 @@ const UpdatePasswordForm: FC<{ user: any }> = ({ user }) => {
         data.currentPassword,
         data.newPassword
       );
-
-      console.log("result", result);
 
       setLoading(false);
     } catch (err) {
@@ -170,6 +166,8 @@ const UpdateDetailsForm: FC<{ user: any }> = ({ user }) => {
       btcWallet: user.btcWallet,
       tbcWallet: user.tbcWallet,
       mobileNo: user.mobileNo,
+      gcashNo: user.gcashNo,
+      paymayaNo: user.paymayaNo,
     },
   });
 
@@ -182,10 +180,10 @@ const UpdateDetailsForm: FC<{ user: any }> = ({ user }) => {
         user._id,
         data.btcWallet,
         data.tbcWallet,
-        data.mobileNo
+        data.mobileNo,
+        data.gcashNo,
+        data.paymayaNo
       );
-
-      console.log("result", result);
 
       setLoading(false);
     } catch (err) {
@@ -244,6 +242,40 @@ const UpdateDetailsForm: FC<{ user: any }> = ({ user }) => {
         />
 
         {errors.mobileNo && errors.mobileNo.type === "required" && (
+          <InputError error={requiredMsg()} />
+        )}
+      </InputGroup>
+
+      <InputGroup>
+        <Input
+          type="text"
+          id="gcashNo"
+          label="GCash No"
+          placeholder="Mobile No"
+          {...register("gcashNo", {
+            required: true,
+            minLength: 5,
+          })}
+        />
+
+        {errors.gcashNo && errors.gcashNo.type === "required" && (
+          <InputError error={requiredMsg()} />
+        )}
+      </InputGroup>
+
+      <InputGroup>
+        <Input
+          type="text"
+          id="paymayaNo"
+          label="Paymaya No"
+          placeholder="Paymaya No"
+          {...register("paymayaNo", {
+            required: true,
+            minLength: 5,
+          })}
+        />
+
+        {errors.paymayaNo && errors.paymayaNo.type === "required" && (
           <InputError error={requiredMsg()} />
         )}
       </InputGroup>

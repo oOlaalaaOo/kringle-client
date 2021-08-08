@@ -16,6 +16,7 @@ import DownlinesPage from "./pages/user/downlines/downlines.page";
 import CashoutPage from "./pages/user/cashout/cashout.page";
 import AccountPage from "./pages/user/account/account.page";
 import StorePage from "./pages/user/store/store.page";
+import SellPage from "./pages/user/sell/sell.page";
 
 const Routes = () => {
   return (
@@ -55,6 +56,9 @@ const Routes = () => {
         </Route>
         <Route path="/user/cashout/:membershipId">
           <CashoutPage />
+        </Route>
+        <Route path="/user/sell/:membershipId">
+          <SellPage />
         </Route>
         <Route path="/user/account">
           <AccountPage />

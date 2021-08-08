@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import LoginForm from "../../../../components/shared/login-form/login-form";
-import logo from '../../../../assets/images/logo.png';
+import logo from "../../../../assets/images/logo.png";
 
 const LoginPage: React.FC<any> = () => {
   const history = useHistory();
@@ -10,11 +10,7 @@ const LoginPage: React.FC<any> = () => {
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <img
-            className="mx-auto h-12 w-auto"
-            src={logo}
-            alt="Workflow"
-          />
+          <img className="mx-auto h-12 w-auto" src={logo} alt="Kringle UK" />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account
           </h2>
@@ -37,7 +33,11 @@ const LoginPage: React.FC<any> = () => {
 
         <LoginForm
           asAdmin={false}
-          onSuccessLogin={() => history.push("/user/dashboard")}
+          onLoginSuccess={(value) => {
+            if (value === true) {
+              history.push("/user/dashboard");
+            }
+          }}
         />
       </div>
     </div>

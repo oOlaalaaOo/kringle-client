@@ -18,12 +18,12 @@ interface IUserForm {
 
 interface ILoginForm {
   asAdmin: boolean;
-  onSuccessLogin?: () => void;
+  onLoginSuccess?: (value: boolean) => void;
 }
 
 const LoginForm: React.FC<ILoginForm> = ({
   asAdmin = false,
-  onSuccessLogin,
+  onLoginSuccess,
 }) => {
   const {
     register,
@@ -52,7 +52,7 @@ const LoginForm: React.FC<ILoginForm> = ({
       saveUserDetailsHandler(resp.data.user);
 
       setLoading(false);
-      if (typeof onSuccessLogin !== "undefined") onSuccessLogin();
+      if (typeof onLoginSuccess !== "undefined") onLoginSuccess(true);
     } catch (err) {
       setLoading(false);
 
@@ -69,11 +69,13 @@ const LoginForm: React.FC<ILoginForm> = ({
 
       const resp = await AuthService.loginAsAdmin(username, password);
 
+      console.log("resp", resp);
+
       saveAccessTokenHandler(resp.data.accessToken);
       saveUserDetailsHandler(resp.data.user);
 
       setLoading(false);
-      if (typeof onSuccessLogin !== "undefined") onSuccessLogin();
+      if (typeof onLoginSuccess !== "undefined") onLoginSuccess(true);
     } catch (err) {
       setLoading(false);
 
@@ -92,7 +94,7 @@ const LoginForm: React.FC<ILoginForm> = ({
   };
 
   return (
-    <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
       <div className="rounded-md shadow-sm -space-y-px">
         {loginError !== "" && <Alert message={loginError} />}
 
@@ -102,6 +104,8 @@ const LoginForm: React.FC<ILoginForm> = ({
             id="username"
             label="Username"
             placeholder="Username"
+            autoComplete="username"
+            autoFocus={true}
             {...register("username", { required: true, minLength: 5 })}
           />
 
@@ -119,6 +123,7 @@ const LoginForm: React.FC<ILoginForm> = ({
             id="password"
             label="Password"
             placeholder="Password"
+            autoComplete="password"
             {...register("password", { required: true, minLength: 5 })}
           />
 
@@ -134,7 +139,6 @@ const LoginForm: React.FC<ILoginForm> = ({
       <div>
         <Button
           label="Sign in"
-          onClick={() => console.log("clicked")}
           theme="primary"
           type="submit"
           loading={loading}

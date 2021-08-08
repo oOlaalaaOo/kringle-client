@@ -123,8 +123,9 @@ const DashboardPage: FC<any> = ({ user }) => {
                         <div className="px-1">
                           <Button
                             type="button"
-                            label="Cashout"
+                            label="Cashout Referral Points"
                             theme="primary"
+                            disabled={true}
                             onClick={() =>
                               history.push(`/user/cashout/${membership._id}`)
                             }
@@ -134,11 +135,12 @@ const DashboardPage: FC<any> = ({ user }) => {
                         <div className="px-1">
                           <Button
                             type="button"
-                            label="Sell"
+                            label="Sell TBC"
                             theme="primary"
+                            disabled={true}
                             onClick={() =>
                               history.push(
-                                `/user/downlines/${membership.referralCode}`
+                                `/user/sell/${membership._id}`
                               )
                             }
                           />
@@ -168,14 +170,8 @@ const DashboardPage: FC<any> = ({ user }) => {
             <div className="mt-1">
               <h3 className="text-3xl leading-6 font-medium">Add Membership</h3>
               <div className="mt-2">
-                <p className="text-sm text-gray-500">
-                  Are you sure you want to deactivate your account? All of your
-                  data will be permanently removed. This action cannot be
-                  undone.
-                </p>
-
                 <AddMembershipForm
-                  onSuccessSubmit={() => {
+                  onSubmitSuccess={() => {
                     setAddMembershipModal(false);
                     getUserMemberships();
                   }}

@@ -11,6 +11,7 @@ import InputError from "../../../../../components/common/input/input-error";
 import Button from "../../../../../components/common/button/button";
 import BlockchainService from "../../../../../services/api/blockchain.service";
 import MembershipService from "../../../../../services/api/membership.service";
+import Notification from "../../../../../components/common/notification/notification";
 
 interface IProps {
   onSubmitSuccess: () => void;
@@ -28,6 +29,8 @@ const AddMembershipForm: React.FC<IProps> = ({ onSubmitSuccess }) => {
   const [currentBtcValue, setCurrentBtcValue] = useState(0);
   const [membershipPlans, setMembershipPlans] = useState<any>([]);
   const [membershipPlanId, setMembershipPlanId] = useState<any>(null);
+  const [showCopyNotification, setShowCopyNotification] =
+    useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -96,147 +99,163 @@ const AddMembershipForm: React.FC<IProps> = ({ onSubmitSuccess }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <InputGroup>
-        <Input
-          type="text"
-          id="referralCode"
-          label="Referral Code"
-          placeholder="Referral Code"
-          {...register("referralCode", {
-            required: true,
-            validate: async (value) => {
-              const result =
-                await MembershipService.checkMembershipReferrerCode(value);
+    <>
+      <Notification show={showCopyNotification} title="Successfully Copied!" />
 
-              return result.data.success;
-            },
-          })}
-        />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <InputGroup>
+          <Input
+            type="text"
+            id="referralCode"
+            label="Referral Code"
+            placeholder="Referral Code"
+            {...register("referralCode", {
+              required: true,
+              validate: async (value) => {
+                const result =
+                  await MembershipService.checkMembershipReferrerCode(value);
 
-        {errors.referralCode && errors.referralCode.type === "required" && (
-          <InputError error={requiredMsg()} />
-        )}
-        {errors.referralCode && errors.referralCode.type === "minLength" && (
-          <InputError error={minLengthMsg(5)} />
-        )}
-        {errors.referralCode && errors.referralCode.type === "validate" && (
-          <InputError error="Referral Code does not exists." />
-        )}
-      </InputGroup>
+                return result.data.success;
+              },
+            })}
+          />
 
-      <InputGroup>
-        {membershipPlanId !== null && (
-          <>
-            <label htmlFor="membershipPlanId">Membership Plans</label>
-            <select
-              id="membershipPlanId"
-              className="w-full border px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              onChange={(e) => {
-                const value = e.target.value;
-
-                setMembershipPlanId(value);
-                membershipPlainIdOnChangeHandler(value);
-              }}
-              value={membershipPlanId}
-            >
-              {membershipPlans.map((plan: any) => {
-                return (
-                  <option value={plan._id} key={plan._id}>
-                    {String(plan.name).toUpperCase()}
-                  </option>
-                );
-              })}
-            </select>
-          </>
-        )}
-      </InputGroup>
-
-      <InputGroup>
-        <Input
-          name="membershipPlanPrice"
-          type="text"
-          id="membershipPlanPrice"
-          label="Membership Plan Price"
-          value={currentBtcValue}
-          readOnly={true}
-          ref={membershipPlanPriceRef}
-          iconRight={
-            <Copy
-              size={20}
-              color="#999"
-              className="cursor-pointer"
-              onClick={() => {
-                membershipPlanPriceRef.current?.select();
-                document.execCommand("copy");
-              }}
-            />
-          }
-        />
-      </InputGroup>
-
-      <InputGroup>
-        <Input
-          name="adminBtcWallet"
-          type="text"
-          id="adminBtcWallett"
-          label="Admin BTC Wallet"
-          readOnly={true}
-          value="bc1q6pwaz7sh3vgk0muee2c5nvyw2cmlruxa8hgp3d"
-          ref={adminBtcWalletRef}
-          iconRight={
-            <Copy
-              size={20}
-              color="#999"
-              className="cursor-pointer"
-              onClick={() => {
-                adminBtcWalletRef.current?.select();
-                document.execCommand("copy");
-              }}
-            />
-          }
-        />
-
-        <p className="text-xs mt-1 text-gray-500">
-          Please send your payment on this BTC wallet address.
-        </p>
-      </InputGroup>
-
-      <InputGroup>
-        <Input
-          type="text"
-          id="transactionHash"
-          label="Transaction Hash"
-          placeholder="Transaction Hash"
-          {...register("transactionHash", {
-            required: true,
-            validate: async (value) => {
-              const result =
-                await MembershipService.checkMembershipTransactionHash(value);
-
-              return result.data.success;
-            },
-          })}
-        />
-
-        <p className="text-xs mt-1 text-gray-500">
-          Please enter the transaction hash code when you send your payment.
-        </p>
-
-        {errors.transactionHash &&
-          errors.transactionHash.type === "required" && (
+          {errors.referralCode && errors.referralCode.type === "required" && (
             <InputError error={requiredMsg()} />
           )}
-        {errors.transactionHash &&
-          errors.transactionHash.type === "validate" && (
-            <InputError error="Transaction Hash already exits." />
+          {errors.referralCode && errors.referralCode.type === "minLength" && (
+            <InputError error={minLengthMsg(5)} />
           )}
-      </InputGroup>
+          {errors.referralCode && errors.referralCode.type === "validate" && (
+            <InputError error="Referral Code does not exists." />
+          )}
+        </InputGroup>
 
-      <InputGroup>
-        <Button label="Submit Membership" theme="primary" type="submit" />
-      </InputGroup>
-    </form>
+        <InputGroup>
+          {membershipPlanId !== null && (
+            <>
+              <label htmlFor="membershipPlanId">Membership Plans</label>
+              <select
+                id="membershipPlanId"
+                className="w-full border px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                onChange={(e) => {
+                  const value = e.target.value;
+
+                  setMembershipPlanId(value);
+                  membershipPlainIdOnChangeHandler(value);
+                }}
+                value={membershipPlanId}
+              >
+                {membershipPlans.map((plan: any) => {
+                  return (
+                    <option value={plan._id} key={plan._id}>
+                      {String(plan.name).toUpperCase()}
+                    </option>
+                  );
+                })}
+              </select>
+            </>
+          )}
+        </InputGroup>
+
+        <InputGroup>
+          <Input
+            name="membershipPlanPrice"
+            type="text"
+            id="membershipPlanPrice"
+            label="Membership Plan Price"
+            value={currentBtcValue}
+            readOnly={true}
+            ref={membershipPlanPriceRef}
+            iconRight={
+              <Copy
+                size={20}
+                color="#999"
+                className="cursor-pointer"
+                onClick={() => {
+                  membershipPlanPriceRef.current?.select();
+                  document.execCommand("copy");
+
+                  setShowCopyNotification(true);
+
+                  setTimeout(() => {
+                    setShowCopyNotification(false);
+                  }, 3000);
+                }}
+              />
+            }
+          />
+        </InputGroup>
+
+        <InputGroup>
+          <Input
+            name="adminBtcWallet"
+            type="text"
+            id="adminBtcWallett"
+            label="Admin BTC Wallet"
+            readOnly={true}
+            value="bc1q6pwaz7sh3vgk0muee2c5nvyw2cmlruxa8hgp3d"
+            ref={adminBtcWalletRef}
+            iconRight={
+              <Copy
+                size={20}
+                color="#999"
+                className="cursor-pointer"
+                onClick={() => {
+                  adminBtcWalletRef.current?.select();
+                  document.execCommand("copy");
+
+                  setShowCopyNotification(true);
+
+                  setTimeout(() => {
+                    setShowCopyNotification(false);
+                  }, 3000);
+                }}
+              />
+            }
+          />
+
+          <p className="text-xs mt-1 text-gray-500">
+            Please send your payment on this BTC wallet address.
+          </p>
+        </InputGroup>
+
+        <InputGroup>
+          <Input
+            type="text"
+            id="transactionHash"
+            label="Transaction Hash"
+            placeholder="Transaction Hash"
+            {...register("transactionHash", {
+              required: true,
+              validate: async (value) => {
+                const result =
+                  await MembershipService.checkMembershipTransactionHash(value);
+
+                return result.data.success;
+              },
+            })}
+          />
+
+          <p className="text-xs mt-1 text-gray-500">
+            Please enter the transaction hash code when you send your payment.
+          </p>
+
+          {errors.transactionHash &&
+            errors.transactionHash.type === "required" && (
+              <InputError error={requiredMsg()} />
+            )}
+          {errors.transactionHash &&
+            errors.transactionHash.type === "validate" && (
+              <InputError error="Transaction Hash already exits." />
+            )}
+        </InputGroup>
+
+        <InputGroup>
+          <Button label="Submit Membership" theme="primary" type="submit" />
+        </InputGroup>
+      </form>
+    </>
   );
 };
 

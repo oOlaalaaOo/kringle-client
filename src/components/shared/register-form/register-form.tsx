@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
   confirmPasswordMsg,
@@ -24,6 +24,8 @@ const RegisterForm: React.FC<IProps> = ({ onRegisterSuccess }) => {
     getValues,
   } = useForm();
 
+  console.log("errors", errors);
+
   const onSubmit = async (data: any) => {
     try {
       await AuthService.register(data.username, data.password, data.name);
@@ -42,12 +44,16 @@ const RegisterForm: React.FC<IProps> = ({ onRegisterSuccess }) => {
           id="username"
           label="Username"
           placeholder="Username"
-          {...register("username", { required: true, minLength: 5, validate: async (value) => {
-            const result =
-              await UserService.checkUsername(value);
+          {...register("username", {
+            required: true,
+            minLength: 5,
+            validate: async (value) => {
+              const result = await UserService.checkUsername(value);
 
-            return result.data.success;
-          }, })}
+              console.log("result", result);
+              return result.data.success;
+            },
+          })}
         />
 
         {errors.username && errors.username.type === "required" && (
@@ -56,7 +62,7 @@ const RegisterForm: React.FC<IProps> = ({ onRegisterSuccess }) => {
         {errors.username && errors.username.type === "minLength" && (
           <InputError error={minLengthMsg(5)} />
         )}
-        {errors.referralCode && errors.referralCode.type === "validate" && (
+        {errors.username && errors.username.type === "validate" && (
           <InputError error="Username already exists." />
         )}
       </InputGroup>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import {
   confirmPasswordMsg,
@@ -24,8 +24,6 @@ const RegisterForm: React.FC<IProps> = ({ onRegisterSuccess }) => {
     getValues,
   } = useForm();
 
-  console.log("errors", errors);
-
   const onSubmit = async (data: any) => {
     try {
       await AuthService.register(data.username, data.password, data.name);
@@ -50,7 +48,6 @@ const RegisterForm: React.FC<IProps> = ({ onRegisterSuccess }) => {
             validate: async (value) => {
               const result = await UserService.checkUsername(value);
 
-              console.log("result", result);
               return result.data.success;
             },
           })}
